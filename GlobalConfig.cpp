@@ -19,7 +19,7 @@ void Config::addOperations(const std::vector<std::string>& operations)
 
 void Config::writeToFile() 
 {
-    std::ofstream file(GlobalConstants::XMLConfigFilename);
+    std::ofstream file(GlobalConstants::XML_ELEMENTS::CONFIG_FILENAME);
     if (!file.is_open()) {
         throw std::runtime_error("Error: Could not open file for writing.");
     }

@@ -1,9 +1,7 @@
-#include <fstream>
 #include <string>
 #include <memory>
-#include <experimental/filesystem>
-#include <stdexcept>
-#include <vector>
+
+#include "XMLParser.h"
 
 class ImageValidator {
 public:
@@ -13,12 +11,15 @@ public:
 class ImageValidatorImpl : public ImageValidator
 {
 public:
-    const bool isImageValid(const std::string& imagePath) const;
+    explicit ImageValidatorImpl(std::shared_ptr<XMLParser> xmlParser) : xmlParser(xmlParser) {};
+    const bool isImageFileValid(const std::string& imagePath) const;
 
 private:
-    const bool isFileExtensionValid(const std::string& imagePath) const;
-    const std::vector<std::string> parseXMLConfigFile() const;
-    const std::string parseXMLConfigFileLine(const std::string& line) const;
+    const bool isImageExtensionValid(const std::string& imagePath) const;
+    const std::string getImageFileExtensionFromPath(const std::string& imagePath) const;
+    const bool isImagePathValid(const std::string& imagePath) const;
     const bool isPNGSignatureValid(const std::string& imagePath, std::ifstream& file) const;
     const bool isJPEGSignatureValid(const std::string& imagePath, std::ifstream& file) const;
+
+    std::shared_ptr<XMLParser> xmlParser; 
 };

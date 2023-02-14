@@ -10,7 +10,7 @@ class ImageProcessorSDKInterface
 {
 public:
 	virtual void getData(const std::string& imagePath, const std::vector<std::string>& operations) = 0;
-	std::string returnResult();
+	virtual std::string returnResult() = 0; 
 };
 
 class ImageProcessingSDKInterfaceImpl : public ImageProcessorSDKInterface

@@ -1,82 +1,66 @@
+#include <fstream>
+#include <experimental/filesystem>
+#include <stdexcept>
+
 #include "GlobalConfig.h"
 
 #include "ImageValidator.h"
 
-const bool ImageValidatorImpl::isImageValid(const std::string& imagePath) const
+const bool ImageValidatorImpl::isImageFileValid(const std::string& imagePath) const
+{
+	const std::string imageFileExtension = getImageFileExtensionFromPath(imagePath);
+
+	if (!isImageExtensionValid(imageFileExtension))
+	{
+		throw std::invalid_argument("Error: provided file extension is not allowed");
+		return false;
+	}
+
+	if (!isImagePathValid(imagePath))
+	{
+		return false;
+	}
+
+	if (imageFileExtension == GlobalConstants::IMAGE_FORMATS::JPEG)
+	{
+		return isJPEGSignatureValid(imagePath, std::ifstream(imagePath));
+	}
+
+	if (imageFileExtension == GlobalConstants::IMAGE_FORMATS::PNG)
+	{
+		return isPNGSignatureValid(imagePath, std::ifstream(imagePath));
+	}
+}
+
+const bool ImageValidatorImpl::isImageExtensionValid(const std::string& imageFileExtension) const
+{
+	return xmlParser->validateIncomingParams(GlobalConstants::XML_ELEMENTS::FILE_EXTENSIONS, imageFileExtension);
+}
+
+const std::string ImageValidatorImpl::getImageFileExtensionFromPath(const std::string& imagePath) const
+{
+	auto extensionPos = imagePath.rfind('.');
+
+	if (extensionPos == std::string::npos) {
+		throw std::invalid_argument("Error: no file extension found in the file path.");
+	}
+
+	return imagePath.substr(extensionPos + 1);
+}
+
+const bool ImageValidatorImpl::isImagePathValid(const std::string& imagePath) const
 {
 	if (!std::experimental::filesystem::exists(imagePath))
 	{
 		throw std::runtime_error("Error: file path is not valid.");
 	}
-}
 
-const bool ImageValidatorImpl::isFileExtensionValid(const std::string& imagePath) const
-{
-	std::vector<std::string> allowedExtensions = parseXMLConfigFile();
-	std::string fileExtension = std::experimental::filesystem::path(imagePath).extension().string();
-	const auto it = std::find(allowedExtensions.begin(), allowedExtensions.end(), fileExtension);
+	std::ifstream file(imagePath);
 
-	if (it == allowedExtensions.end())
-	{
-		throw std::runtime_error("Error: file extension is not valid.");
-	}
-
-	const std::string foundExtension = *it;
-
-	std::ifstream file(imagePath, std::ios::binary);
-	if (!file.is_open()) {
-		return false;
-	}
-
-	if (foundExtension == ".png" && !isPNGSignatureValid(imagePath, file))
-	{
-		throw std::runtime_error("Error: *.png file is not valid.");
-		return false;
-	}
-	else if (foundExtension == ".jpeg" && !isJPEGSignatureValid(imagePath, file))
-	{
-		throw std::runtime_error("Error: *.jpeg file is not valid.");
-		return false;
-	}
-}
-
-const std::vector<std::string> ImageValidatorImpl::parseXMLConfigFile() const
-{
-	std::vector<std::string> fileExtensions;
-	std::ifstream file(GlobalConstants::XMLConfigFilename);
 	if (!file.is_open()) {
 		throw std::runtime_error("Error: Could not open config file for reading.");
 	}
-
-	std::string line;
-	while (std::getline(file, line)) {
-		std::string extension = parseXMLConfigFileLine(line);
-		if (!extension.empty()) {
-			fileExtensions.push_back(extension);
-		}
-	}
-	file.close();
-
-	return fileExtensions;
-}
-
-const std::string ImageValidatorImpl::parseXMLConfigFileLine(const std::string& line) const
-{
-	const std::string XmlElementStart = "<file_extension>";
-	const std::string XmlElementEnd = "</file_extension>";
-	const size_t XmlElementHeaderLength = 15;
-
-	size_t start = line.find(XmlElementStart);
-	if (start == std::string::npos) {
-		return "";
-	}
-
-	size_t end = line.find("XmlElementEnd");
-	if (end == std::string::npos) {
-		return "";
-	}
-
-	return line.substr(start + XmlElementHeaderLength, end - start - XmlElementHeaderLength);
+	return true;
 }
 
 const bool ImageValidatorImpl::isPNGSignatureValid(const std::string& imagePath, std::ifstream& file) const

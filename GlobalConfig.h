@@ -9,7 +9,25 @@
 
 namespace GlobalConstants
 {
-	const std::string XMLConfigFilename = "config.xml";
+    namespace XML_ELEMENTS
+    {
+        const std::string CONFIG_FILENAME = "config.xml";
+        const std::string FILE_EXTENSIONS = "file_extension";
+        const std::string OPERATIONS = "operations";
+    }
+    namespace IMAGE_FORMATS 
+    {
+        const std::string JPEG = "jpeg";
+        const std::string PNG = "png";
+    }
+    namespace OPERATIONS
+    {
+        const std::string RESIZE = "resize";
+        const std::string CROP = "crop";
+        const std::string BLUR = "blur";
+        const std::string WATERCOLOR = "watercolor";
+        const std::string CARTOONIZE = "cartoonaize";
+    }
 }
 
 class Config {

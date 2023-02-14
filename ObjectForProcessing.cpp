@@ -12,8 +12,13 @@ std::string ObjectForProcessingImpl::getImage(const std::string& imagePath) cons
 	throw std::runtime_error("Error: provided image file pr path is invalid.");
 }
 
+std::vector<std::string> ObjectForProcessingImpl::GetOperations(std::vector<std::string> operations)
+{
+	return std::vector<std::string>();
+}
+
 const std::unique_ptr<ObjectForProcessing> ObjectForProcessingImpl::createObjetcForProcessing()
 {
-
+	
 }
 
