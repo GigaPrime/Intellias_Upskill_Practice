@@ -6,7 +6,7 @@
 #include "ImageProcessor.h"
 #include "GlobalConfig.h"
 
-ImageProcessorThreadPoolHandler::ImageProcessorThreadPoolHandler(std::map<std::string, std::vector<std::string>>& imagesForProcessingWithOperations) 
+ImageProcessorThreadPoolHandler::ImageProcessorThreadPoolHandler(mutable std::map<std::string, std::vector<std::string>>& imagesForProcessingWithOperations)
 {
     namespace hardwareLimits = GlobalConstants::HARWARE_LIMITS;
     const size_t maxThreads = std::min(std::thread::hardware_concurrency(), static_cast<unsigned int>(hardwareLimits::MAX_CORES));

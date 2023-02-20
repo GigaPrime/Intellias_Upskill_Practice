@@ -10,7 +10,7 @@
 class ImageProcessorThreadPoolHandler 
 {
 public:
-    ImageProcessorThreadPoolHandler(std::map<std::string, std::vector<std::string>>& imagesForProcessingWithOperations);
+    ImageProcessorThreadPoolHandler(mutable std::map<std::string, std::vector<std::string>>& imagesForProcessingWithOperations);
     ~ImageProcessorThreadPoolHandler();
 
 private:
