@@ -6,7 +6,7 @@
 
 #include "ImageValidator.h"
 
-const bool ImageValidatorImpl::isImageFileValid(const std::string& imagePath) const
+const bool ImageValidator::isValid(const std::string& imagePath) const
 {
 	const std::string imageFileExtension = getImageFileExtensionFromPath(imagePath);
 
@@ -32,12 +32,12 @@ const bool ImageValidatorImpl::isImageFileValid(const std::string& imagePath) co
 	}
 }
 
-const bool ImageValidatorImpl::isImageExtensionValid(const std::string& imageFileExtension) const
+const bool ImageValidator::isImageExtensionValid(const std::string& imageFileExtension) const
 {
 	return xmlParser->validateIncomingParams(GlobalConstants::XML_ELEMENTS::FILE_EXTENSIONS, imageFileExtension);
 }
 
-const std::string ImageValidatorImpl::getImageFileExtensionFromPath(const std::string& imagePath) const
+const std::string ImageValidator::getImageFileExtensionFromPath(const std::string& imagePath) const
 {
 	auto extensionPos = imagePath.rfind('.');
 
@@ -48,7 +48,7 @@ const std::string ImageValidatorImpl::getImageFileExtensionFromPath(const std::s
 	return imagePath.substr(extensionPos + 1);
 }
 
-const bool ImageValidatorImpl::isImagePathValid(const std::string& imagePath) const
+const bool ImageValidator::isImagePathValid(const std::string& imagePath) const
 {
 	if (!std::experimental::filesystem::exists(imagePath))
 	{
@@ -63,7 +63,7 @@ const bool ImageValidatorImpl::isImagePathValid(const std::string& imagePath) co
 	return true;
 }
 
-const bool ImageValidatorImpl::isPNGSignatureValid(const std::string& imagePath, std::ifstream& file) const
+const bool ImageValidator::isPNGSignatureValid(const std::string& imagePath, std::ifstream& file) const
 {
 	char pngSignature[8];
 	file.read(pngSignature, 8);
@@ -71,7 +71,7 @@ const bool ImageValidatorImpl::isPNGSignatureValid(const std::string& imagePath,
 		&& pngSignature[4] == 0x4e && pngSignature[5] == 0x47 && pngSignature[6] == 0x0d && pngSignature[7] == 0x0a;
 }
 
-const bool ImageValidatorImpl::isJPEGSignatureValid(const std::string& imagePath, std::ifstream& file) const
+const bool ImageValidator::isJPEGSignatureValid(const std::string& imagePath, std::ifstream& file) const
 {
 	char jpegSignature[2];
 	file.read(jpegSignature, 2);

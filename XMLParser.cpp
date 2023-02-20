@@ -7,7 +7,7 @@ namespace XMLElements = GlobalConstants::XML_ELEMENTS;
 namespace imageFormats = GlobalConstants::IMAGE_FORMATS;
 namespace operations = GlobalConstants::OPERATIONS;
 
-const bool XMLParser::parseXMLConfigIfValid(const std::string& param) const
+const bool XMLParser::parseConfigIfValid(const std::string& param) const
 {
 	if (!isConfigFilePathValid)
 	{

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 #include "ObjectForProcessing.h"
 
@@ -17,4 +18,8 @@ class ImageProcessingSDKInterfaceImpl : public ImageProcessorSDKInterface
 {
 public:
 	void getData(const std::string& imagePath, const std::vector<std::string>& operations);
+
+
+private:
+	std::map<std::string, std::vector<std::string>> imagesForProcessingWithOperations;
 };
