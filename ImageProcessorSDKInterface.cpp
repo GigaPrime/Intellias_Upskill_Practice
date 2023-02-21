@@ -1,6 +1,11 @@
 #include "ImageProcessorSDKInterface.h"
 
-void ImageProcessingSDKInterfaceImpl::getData(const std::string& imagePath, const std::vector<std::string>& operations)
+void ImageProcessorSDKInterface::getData(const std::string& imagePath, const std::vector<std::string>& operations)
 {
 
+}
+
+std::string ImageProcessorSDKInterface::returnResult()
+{
+	return std::string();
 }

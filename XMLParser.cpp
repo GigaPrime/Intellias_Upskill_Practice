@@ -2,10 +2,11 @@
 #include <regex>
 
 #include "XMLParser.h"
+#include "GlobalConfig.h"
 
-namespace XMLElements = GlobalConstants::XML_ELEMENTS;
-namespace imageFormats = GlobalConstants::IMAGE_FORMATS;
-namespace operations = GlobalConstants::OPERATIONS;
+namespace XMLElements = GlobalConstants::XML_CONFIG::XML_ELEMENTS;
+namespace imageFormats = GlobalConstants::XML_CONFIG::IMAGE_FORMATS;
+namespace operations = GlobalConstants::XML_CONFIG::OPERATIONS;
 
 const bool XMLParser::parseConfigIfValid(const std::string& param) const
 {
@@ -24,7 +25,7 @@ const bool XMLParser::parseConfigIfValid(const std::string& param) const
 
 const bool XMLParser::validateIncomingParams(const std::string& param, const std::string& paramValue) const
 {
-	std::ifstream file(GlobalConstants::XML_ELEMENTS::CONFIG_FILENAME);
+	std::ifstream file(XMLElements::CONFIG_FILENAME);
 
 	std::string fileContents((std::istreambuf_iterator<char>(file)),
 		std::istreambuf_iterator<char>());
@@ -48,7 +49,7 @@ const bool XMLParser::isConfigFilePathValid() const
 
 const bool XMLParser::isXMLFilestructureValid() const
 {
-	std::ifstream file(GlobalConstants::XML_ELEMENTS::CONFIG_FILENAME);
+	std::ifstream file(XMLElements::CONFIG_FILENAME);
 
 	std::string fileContents((std::istreambuf_iterator<char>(file)),
 		std::istreambuf_iterator<char>());

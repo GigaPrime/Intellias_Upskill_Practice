@@ -1,13 +1,11 @@
 #pragma once
 #include <string>
 
-#include "GlobalConfig.h"
-
 class configParser 
 {
 public:
-	const virtual bool parseConfigIfValid(const std::string& param) = 0;
-	const virtual bool validateIncomingParams(const std::string& param, const std::string& paramValue) = 0;
+	const virtual bool parseConfigIfValid(const std::string& param) const = 0;
+	const virtual bool validateIncomingParams(const std::string& param, const std::string& paramValue) const = 0;
 };
 
 class XMLParser : public configParser

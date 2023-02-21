@@ -2,12 +2,16 @@
 
 #include "GlobalConfig.h"
 
-const bool OperationsValidator::isValid(const std::string& param) const
+const bool OperationsValidator::isValid(const std::vector<std::string>& operations) const
 {
-	if (!xmlParser->validateIncomingParams(GlobalConstants::XML_ELEMENTS::OPERATIONS, param))
+	for (const auto& operation : operations)
 	{
-		throw std::invalid_argument("Error: invalid operations provided");
-		return false;
+		if (!xmlParser->validateIncomingParams(GlobalConstants::XML_CONFIG::XML_ELEMENTS::OPERATIONS, operation))
+		{
+			throw std::invalid_argument("Error: invalid operations provided");
+			return false;
+		}
 	}
+	
 	return true;
 }
